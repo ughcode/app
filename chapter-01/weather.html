@@ -1,0 +1,77 @@
+<script>
+
+/*
+  Weather App
+  filename: weather.html
+ */
+
+/*
+  1. Declare variables containing the URL for the Open Weather Map
+     API, and your API Key:
+ */
+var apiUrl = 'http://api.openweathermap.org/data/2.5/weather';
+
+var apiKey = '<REPLACE WITH YOUR KEY>';
+
+/*
+  2. Declare a function that is responsible for getting the weather
+     for a given coordinate
+ */
+function getWeather(locationObject, callback) {
+  var url = apiUrl + '?' +
+    parameterize(locationObject) +
+    '&APPID=' + apiKey +
+    '&units=imperial';
+
+  makeRequest(url, function () {
+    var response = this.responseText;
+    response = JSON.parse(response);
+    callback(response);
+  });
+}
+
+/*
+  3. Declare a function that is responsible for making the HTTP
+     requests (HTTP stands for HyperText Transfer Protocol, you
+     curious bastard).
+ */
+function makeRequest(url, callback) {
+  var xhrObject = new XMLHttpRequest();
+  xhrObject.onload = callback;
+  xhrObject.open('GET', url, true);
+  xhrObject.send();
+}
+
+
+/*
+  4.  Declare a function that is responsible for getting our user's
+      coordinate.
+ */
+function getUserCoordinates(callback) {
+  navigator.geolocation.getCurrentPosition(function (position){
+    callback(position.coords);
+  });
+}
+
+/*
+  5. Declare a function that is responsible for the mundane task of
+     printing the temperature onto the user's screen.
+ */
+function printWeather(weatherData) {
+  var currentTemperature = weatherData.main.temp;
+  console.log("The current temprature at your location is: " +
+              currentTemperature);
+}
+
+/*
+  6. Declare a function that is responsible for putting all of this
+     together (ie execute all the other functions in the correct
+     order), and is gonna be the entrance point to our application.
+ */
+function weatherForMyLocation() {
+  getUserCoordinates(function (coord) {
+    getWeather(coord, printWeather);
+  });
+}
+
+</script>

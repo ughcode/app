@@ -1,14 +1,15 @@
 # Example Weather App for [Ugh, Code](http://www.ughco.de)
 
-This repository is for the example application which is used in http://ughco.de
+This repository is for the Weather App used as an example throughout the book
+[Ugh, Code](http://ughco.de)
+
+You can see the application live [here](http://ughco.de/example/weather.html).
 
 ## Installation
 
-Note: This application requires Node JS!
+1. Clone this repository:
 
-1. Clone the repository:
-
-  In your terminal type the following:
+  In your Terminal type the following:
 
   ```Bash
   $ git clone https://github.com/ughcode/weather_app.git
@@ -16,21 +17,27 @@ Note: This application requires Node JS!
 
   This will copy to your computer all the files in this repository.
 
-2. Install the application's dependencies:
+2. CD into the `final` directory:
 
-  In your terminal:
+  ```Bash
+  $ cd final
+  ```
+
+3. Install the application's dependencies (listed in `package.json`):
 
   ```Bash
   $ npm install
   ```
 
-## From the Command Line (terminal)
+### To run from the Command-Line (Terminal)
+
+(Note: You will need [Node JS](https://nodejs.org) installed)
 
 ```Bash
 $ node weather_cli <REPLACE WITH ZIP CODES>
 ```
 
-## From the Browser
+### To run from the Browser
 
 Open weather.html from your browser!
 
@@ -43,7 +50,8 @@ To run a local server (at least on Mac):
 $ python -m SimpleHTTPServer
 ```
 
-And then you can access your file in `http://localhost:8000` (the port may
-vary, look at your server's logs!)
+And then you can access your file in `http://localhost:8000` (the port (8000)
+may vary, look at your server's logs!)
 
 Or run it with FireFox ;-)
+

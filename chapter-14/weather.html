@@ -1,14 +1,15 @@
+<script>
+
 /*
   Weather App
-
-  filename: weather_app.js
+  filename: weather.js
  */
 
-(function () {
+(function () { // <-- We've wrapped almost everything in a function
 
   var apiUrl = 'http://api.openweathermap.org/data/2.5/weather';
 
-  var apiKey = 'fa32fe96da1b6e0398aecdf455e73263';
+  var apiKey = '<REPLACE WITH YOUR KEY>';
 
   function getWeather(locationObject, callback) {
     var url = apiUrl + '?' +
@@ -48,42 +49,35 @@
     });
   }
 
-  function weatherForMyLocation(callback) {
+  function printWeather(weatherData) {
+    var currentTemperature = weatherData.main.temp;
+    var location = weatherData.name;
+    console.log("The current temprature in " + location +
+                " is: " + currentTemperature);
+  }
+
+  function weatherForMyLocation() {
     getUserCoordinates(function (coord) {
       getWeather({
         lon: coord.longitude,
         lat: coord.latitude
-      }, callback);
+      }, printWeather);
     });
   }
 
-  function weatherForZipCodes(zips, callback) {
+  function weatherForZipCodes(zips) {
     for (var i = 0; i < zips.length; i++) {
       getWeather({
         zip: zips[i]
-      }, callback);
+      }, printWeather);
     }
   }
 
-  // The only difference lies here:
+  window.weatherApp = { // <-- Pay attention here
+    weatherForMyLocation : weatherForMyLocation,
+    weatherForZipCodes   : weatherForZipCodes
+  };
 
-  if (typeof window !== 'undefined') { // we're in a browser environment
+})(); // <-- Note how we're immediately invoking here
 
-    window.weatherApp = {
-      weatherForMyLocation : weatherForMyLocation,
-      weatherForZipCodes   : weatherForZipCodes
-    };
-
-  } else if (typeof module !== 'undefined') { // we're in command line environment
-
-    module.exports = {
-      weatherForZipCodes : weatherForZipCodes
-    };
-
-    // Need to get XMLHttpRequest from external module
-    global.XMLHttpRequest = require('xmlhttprequest').XMLHttpRequest;
-
-  }
-
-})();
-
+</script>
