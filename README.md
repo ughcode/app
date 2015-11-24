@@ -3,7 +3,7 @@
 This repository is for the Weather App used as an example throughout the book
 [Ugh, Code](http://ughco.de)
 
-You can see the application live [here](http://ughco.de/example/weather.html).
+You can see the application live [here](http://ughco.de/app/weather.html).
 
 ## Installation
 
