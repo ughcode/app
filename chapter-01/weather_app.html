@@ -1,55 +1,52 @@
 <script>
 
 /*
-  Weather App
-  filename: weather.html
- */
-
-/*
   1. Declare variables containing the URL for the Open Weather Map
-     API, and your API Key:
+     API, and your API Key
  */
 var apiUrl = 'http://api.openweathermap.org/data/2.5/weather';
 
-var apiKey = '<REPLACE WITH YOUR KEY>';
+var apiKey = 'fa32f';
 
 /*
   2. Declare a function that is responsible for getting the weather
      for a given coordinate
  */
-function getWeather(locationObject, callback) {
-  var url = apiUrl + '?' +
-    parameterize(locationObject) +
-    '&APPID=' + apiKey +
-    '&units=imperial';
+function getWeather(coordinate, callback) {
+  var url = apiUrl +
+    '?appid=' + apiKey +
+    '&units=imperial' +
+    '&lon=' + coordinate.longitude +
+    '&lat=' + coordinate.latitude;
 
-  makeRequest(url, function () {
-    var response = this.responseText;
-    response = JSON.parse(response);
+  makeRequest(url, function (responseText) {
+    response = JSON.parse(responseText);
     callback(response);
   });
 }
 
 /*
   3. Declare a function that is responsible for making the HTTP
-     requests (HTTP stands for HyperText Transfer Protocol, you
-     curious bastard).
+     requests
  */
 function makeRequest(url, callback) {
   var xhrObject = new XMLHttpRequest();
-  xhrObject.onload = callback;
+  xhrObject.onload = function () {
+    callback(xhrObject.responseText);
+  };
   xhrObject.open('GET', url, true);
   xhrObject.send();
 }
-
 
 /*
   4.  Declare a function that is responsible for getting our user's
       coordinate.
  */
 function getUserCoordinates(callback) {
-  navigator.geolocation.getCurrentPosition(function (position){
-    callback(position.coords);
+  navigator.geolocation.getCurrentPosition(function (position) {
+    if (position.coords) {
+      callback(position.coords);
+    }
   });
 }
 
@@ -65,7 +62,7 @@ function printWeather(weatherData) {
 
 /*
   6. Declare a function that is responsible for putting all of this
-     together (ie execute all the other functions in the correct
+     together (i.e. execute all the other functions in the correct
      order), and is gonna be the entrance point to our application.
  */
 function weatherForMyLocation() {

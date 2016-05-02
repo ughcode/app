@@ -1,23 +1,17 @@
 <script>
 
-/*
-  Weather App
-  filename: weather.html
- */
-
 var apiUrl = 'http://api.openweathermap.org/data/2.5/weather';
 
-var apiKey = '<REPLACE WITH YOUR KEY>';
+var apiKey = 'fa32f';
 
 function getWeather(locationObject, callback) {
-  var url = apiUrl + '?' +
-    parameterize(locationObject) +
-    '&APPID=' + apiKey +
-    '&units=imperial';
+  var url = apiUrl +
+    '?appid=' + apiKey +
+    '&units=imperial' +
+    '&' + parameterize(locationObject);
 
-  makeRequest(url, function () {
-    var response = this.responseText;
-    response = JSON.parse(response);
+  makeRequest(url, function (responseText) {
+    response = JSON.parse(responseText);
     callback(response);
   });
 }
@@ -32,7 +26,9 @@ function parameterize(object) {
 
 function makeRequest(url, callback) {
   var xhrObject = new XMLHttpRequest();
-  xhrObject.onload = callback;
+  xhrObject.onload = function () {
+    callback(xhrObject.responseText);
+  };
   xhrObject.open('GET', url, true);
   xhrObject.send();
 }
@@ -42,7 +38,7 @@ function getUserCoordinates(callback) {
     if (position.coords) {
       callback(position.coords);
     } else {
-      console.error("Didn't get a valid coordinate, Miao!");
+      console.error("Didn't get a valid coordinate, meow!");
     }
   });
 }

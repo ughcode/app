@@ -1,8 +1,4 @@
 /*
-  Weather
-
-  filename: weather.js
-
   This file is intended to tie our Weather App to the DOM
   elements Since it relies on weather_app.js, we need to
   make sure to include this file AFTER we include
@@ -123,7 +119,7 @@
     This function just handles our form 'submit' event,
     makes sure it doesn't actually submit (would cause a
     page change), and then fires a temperature lookup based
-    on the zip code the user entered
+    on the ZIP code the user entered
    */
   function formHandler(event) {
     event.preventDefault();
@@ -134,4 +130,3 @@
   }
 
 })(); // <-- again, we have to immediately invoke our function
-

@@ -1,24 +1,17 @@
-/*
-  Weather App
-
-  filename: weather_app.js
- */
-
 (function () {
 
   var apiUrl = 'http://api.openweathermap.org/data/2.5/weather';
 
-  var apiKey = '<REPLACE WITH YOUR KEY>';
+  var apiKey = 'fa32f';
 
   function getWeather(locationObject, callback) {
-    var url = apiUrl + '?' +
-      parameterize(locationObject) +
-      '&APPID=' + apiKey +
-      '&units=imperial';
+    var url = apiUrl +
+      '?appid=' + apiKey +
+      '&units=imperial' +
+      '&' + parameterize(locationObject);
 
-    makeRequest(url, function () {
-      var response = this.responseText;
-      response = JSON.parse(response);
+    makeRequest(url, function (responseText) {
+      response = JSON.parse(responseText);
       callback(response);
     });
   }
@@ -33,7 +26,9 @@
 
   function makeRequest(url, callback) {
     var xhrObject = new XMLHttpRequest();
-    xhrObject.onload = callback;
+    xhrObject.onload = function () {
+      callback(xhrObject.responseText);
+    };
     xhrObject.open('GET', url, true);
     xhrObject.send();
   }
@@ -43,7 +38,7 @@
       if (position.coords) {
         callback(position.coords);
       } else {
-        console.error("Didn't get a valid coordinate, Miao!");
+        console.error("Didn't get a valid coordinate, meow!");
       }
     });
   }
@@ -71,16 +66,15 @@
   if (typeof module !== 'undefined' && module.exports) {
     global.XMLHttpRequest = require('xmlhttprequest').XMLHttpRequest;
     module.exports = {
-      weatherForZipCodes : weatherForZipCodes
+      weatherForZipCodes: weatherForZipCodes
     };
 
   // else, if we're in a browser environment:
   } else if (typeof window !== 'undefined') {
     window.weatherApp = {
-      weatherForMyLocation : weatherForMyLocation,
-      weatherForZipCodes   : weatherForZipCodes
+      weatherForMyLocation: weatherForMyLocation,
+      weatherForZipCodes: weatherForZipCodes
     };
   }
 
 })();
-

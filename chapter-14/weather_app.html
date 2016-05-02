@@ -1,25 +1,20 @@
 <script>
 
-/*
-  Weather App
-  filename: weather.js
- */
 
 (function () { // <-- We've wrapped almost everything in a function
 
   var apiUrl = 'http://api.openweathermap.org/data/2.5/weather';
 
-  var apiKey = '<REPLACE WITH YOUR KEY>';
+  var apiKey = 'fa32f';
 
   function getWeather(locationObject, callback) {
-    var url = apiUrl + '?' +
-      parameterize(locationObject) +
-      '&APPID=' + apiKey +
-      '&units=imperial';
+    var url = apiUrl +
+      '?appid=' + apiKey +
+      '&units=imperial' +
+      '&' + parameterize(locationObject);
 
-    makeRequest(url, function () {
-      var response = this.responseText;
-      response = JSON.parse(response);
+    makeRequest(url, function (responseText) {
+      response = JSON.parse(responseText);
       callback(response);
     });
   }
@@ -34,7 +29,9 @@
 
   function makeRequest(url, callback) {
     var xhrObject = new XMLHttpRequest();
-    xhrObject.onload = callback;
+    xhrObject.onload = function () {
+      callback(xhrObject.responseText);
+    };
     xhrObject.open('GET', url, true);
     xhrObject.send();
   }
@@ -44,7 +41,7 @@
       if (position.coords) {
         callback(position.coords);
       } else {
-        console.error("Didn't get a valid coordinate, Miao!");
+        console.error("Didn't get a valid coordinate, meow!");
       }
     });
   }
@@ -74,8 +71,8 @@
   }
 
   window.weatherApp = { // <-- Pay attention here
-    weatherForMyLocation : weatherForMyLocation,
-    weatherForZipCodes   : weatherForZipCodes
+    weatherForMyLocation: weatherForMyLocation,
+    weatherForZipCodes: weatherForZipCodes
   };
 
 })(); // <-- Note how we're immediately invoking here
