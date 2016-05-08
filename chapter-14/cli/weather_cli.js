@@ -17,5 +17,7 @@ var zipCodes = process.argv.slice(2);
  */
 weatherApp.weatherForZipCodes(zipCodes, function (weatherData) {
   var temp = weatherData.main.temp;
-  console.log("Current Temperature for " + weatherData.name + ": " + temp);
+  console.log(
+    "Current Temperature for " + weatherData.name + ": " + temp
+  );
 });
