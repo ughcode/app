@@ -1,6 +1,6 @@
 /*
   This file is intended to tie our Weather App to the DOM
-  elements Since it relies on weather_app.js, we need to
+  elements. Since it relies on weather_app.js, we need to
   make sure to include this file AFTER we include
   weather_app.js
  */
